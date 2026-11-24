@@ -7,7 +7,6 @@ import { createClient } from "@/src/lib/supabase/server";
 import { cities } from "@/src/lib/geo/cities";
 import { createPublicLocation } from "@/src/lib/geo/public-location";
 import { parseCivilDate } from "@/src/lib/dates";
-import { checkStudEligibility } from "../services/stud-eligibility";
 
 const optionalText = z.string().trim().max(150).transform(value => value || null);
 const date = optionalText.refine(value => {
@@ -22,7 +21,6 @@ const price = z.string().regex(/^\d{1,8}(\.\d{1,2})?$/, "Enter a USD fee with up
 const schema = z.object({
   name: z.string().trim().min(1).max(100), breed: z.string().trim().min(1).max(100),
   city: z.string(), price, akcNumber: optionalText, brucellosisDate: date,
-  status: z.enum(["draft", "published"]),
 });
 
 export async function createStud(_: { message: string }, form: FormData): Promise<{ message: string }> {
@@ -34,13 +32,10 @@ export async function createStud(_: { message: string }, form: FormData): Promis
   const input = parsed.data;
   const city = cities.find(item => item.label === input.city);
   if (!city) return { message: "Choose a supported city." };
-  if (input.status === "published" && !checkStudEligibility(input).eligible) {
-    return { message: "Publishing requires an AKC number and a test collected within the last 14 days, including today." };
-  }
   const { error } = await db.from("studs").insert({
     owner_id: user.id, name: input.name, breed: input.breed, price: input.price,
     akc_number: input.akcNumber, brucellosis_date: input.brucellosisDate,
-    status: input.status, ...createPublicLocation(city),
+    status: "draft", ...createPublicLocation(city),
   });
   if (error) return { message: "Unable to save this stud. Check your profile and listing details." };
   revalidatePath("/studs");
