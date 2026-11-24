@@ -37,10 +37,14 @@ export async function Verifications({searchParams}:PageProps) {
     .select("id,status,face_match_score,created_at,review_note,reviewed_at,profiles(display_name)")
     .order("status").order("created_at").order("id").range(start,end);
   if(error) throw new Error("Unable to load identity checks.");
+  const ids = data.slice(0,25).map(c=>c.id);
+  const evidence = ids.length ? await createClient().from("kyc_evidence").select("case_id,kind").in("case_id",ids) : {data:[],error:null};
+  if (evidence.error) throw new Error("Unable to load evidence list.");
   return <section className="space-y-4"><h1 className="font-display text-3xl">Identity checks</h1>
     {!data.length && <p>No identity checks on this page.</p>}
     {data.slice(0,25).map(c=><article key={c.id} className="surface space-y-2 p-4">
       <h2>{c.profiles?.display_name} · {c.status}</h2><p>Case {c.id}</p>
+      {evidence.data.filter(e=>e.case_id===c.id).map(e=><p key={e.kind}><a className="underline" href={`/api/verification/${c.id}/${e.kind}`}>Download {e.kind}</a></p>)}
       <p>Face match: {c.face_match_score===null?"Awaiting score":c.face_match_score+"%"}</p>
       {c.status==="pending" ? <ReviewForm id={c.id} canApprove={(c.face_match_score??0)>90}/> :
         <p>{c.review_note} {c.reviewed_at}</p>}</article>)}

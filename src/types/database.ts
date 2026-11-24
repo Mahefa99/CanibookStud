@@ -77,6 +77,9 @@ export type Database = {
         Row: Membership; Insert: Membership; Update: Partial<Membership>;
         Relationships: ProfileReference<"account_activities_profile_id_fkey">;
       };
+      kyc_evidence: {
+        Row:{case_id:string;kind:"selfie"|"identity";content:string}; Insert:never; Update:never; Relationships:[];
+      };
       kyc_cases: {
         Row: Case; Insert: Pick<Case,"profile_id"> & Partial<Case>; Update: Partial<Case>;
         Relationships: ProfileReference<"kyc_cases_profile_id_fkey">;
@@ -84,6 +87,7 @@ export type Database = {
     };
     Views: Record<never, never>;
     Functions: {
+      submit_identity_evidence:{Args:{selfie:string;identity_image:string};Returns:string};
       is_platform_admin:{Args:Record<never,never>; Returns:boolean};
       review_kyc:{Args:{case_id:string; decision:Status; note:string}; Returns:boolean};
       sign_contract:{Args:{contract:string; signer:string; address:string};Returns:undefined};
