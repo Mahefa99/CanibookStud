@@ -16,7 +16,7 @@ const STATES = [
   { href: "/checkout/failed", label: "Payment failed", body: "Nothing is unlocked; retry is possible." },
   { href: "/checkout/confirmed", label: "Confirmed state", body: "Server-confirmed layout. No real payment." },
   { href: "/access-denied", label: "Access denied", body: "A signed-in user without permission." },
-  { href: "/contracts/CB-2026-1042", label: "Contract", body: "Draft agreement, separate from payment." },
+  { href: "/dashboard/contracts", label: "Contract", body: "View your private reservation agreements." },
 ];
 
 export default function CheckoutPage() {

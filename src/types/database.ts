@@ -34,6 +34,14 @@ type Reservation = {
 export type Database = {
   public: {
     Tables: {
+      reservation_contracts: {
+        Row: {id:string; buyer_id:string; breeder_id:string; issued_at:string; terms:string[]; pdf:string};
+        Insert:never; Update:never; Relationships:[];
+      };
+      contract_signatures: {
+        Row:{contract_id:string; signer_id:string; signed_at:string; signer_ip:string};
+        Insert:never; Update:never; Relationships:[];
+      };
       conversations: {
         Row: {id:string;stud_id:string|null;litter_id:string|null;buyer_id:string;breeder_id:string;created_at:string};
         Insert: never; Update: never; Relationships: [];
@@ -76,6 +84,7 @@ export type Database = {
     };
     Views: Record<never, never>;
     Functions: {
+      sign_contract:{Args:{contract:string; signer:string; address:string};Returns:undefined};
       claim_release: {Args:{reservation:string;breeder:string}; Returns:undefined};
       claim_puppy: {Args:{listing:string;puppy:number;buyer:string;fee:number}; Returns:string};
       breeder_contact: {Args:{thread:string}; Returns:{email:string|null;phone:string|null}[]};
