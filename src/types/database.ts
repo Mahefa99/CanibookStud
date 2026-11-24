@@ -31,9 +31,12 @@ type Reservation = {
   deposit_cents: number; platform_fee_cents: number; currency: string;
   payment_intent_id: string | null; status: "pending" | "paid"; paid_at: string | null;
 };
+type Subscription = {id:string;breeder_id:string;plan:string;cadence:string;price_id:string;created_at:string;
+  checkout_id:string|null;subscription_id:string|null;status:string;revision:number};
 export type Database = {
   public: {
     Tables: {
+      breeder_subscriptions:{Row:Subscription;Insert:Pick<Subscription,"breeder_id"|"plan"|"cadence"|"price_id">;Update:Partial<Subscription>;Relationships:[]};
       reservation_contracts: {
         Row: {id:string; buyer_id:string; breeder_id:string; issued_at:string; terms:string[]; pdf:string};
         Insert:never; Update:never; Relationships:[];

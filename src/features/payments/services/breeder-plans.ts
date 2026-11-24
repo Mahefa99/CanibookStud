@@ -4,7 +4,7 @@ import { getStripe } from "@/src/lib/stripe/server";
 
 const intervals = ["month", "year"] as const;
 type Interval = typeof intervals[number];
-type Rate = { cents: number; interval: Interval };
+type Rate = { priceId: string; cents: number; interval: Interval };
 
 export async function loadBreederPlans() {
   const tiers = BREEDER_SUBSCRIPTIONS;
@@ -23,7 +23,7 @@ export async function loadBreederPlans() {
             price.recurring?.usage_type !== "licensed" || price.recurring.interval_count !== 1 ||
             (interval !== "month" && interval !== "year") || !price.lookup_key ||
             !keys.includes(price.lookup_key) || !price.lookup_key.endsWith("_" + interval)) continue;
-        rates.set(price.lookup_key, { cents: price.unit_amount, interval });
+        rates.set(price.lookup_key, { priceId:price.id, cents: price.unit_amount, interval });
       }
     } catch {
       console.error("Unable to load the Stripe test subscription catalog.");
