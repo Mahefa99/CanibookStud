@@ -25,6 +25,8 @@ type ConnectedAccount = {
   breeder_id: string; stripe_account_id: string | null; created_at: string; onboarding_complete: boolean;
 };
 type Reservation = {
+  release_started_at: string | null; release_destination: string | null;
+  transfer_id: string | null; completed_at: string | null;
   id: string; stud_id: string | null; litter_id: string | null; puppy_number: number | null; buyer_id: string; breeder_id: string;
   deposit_cents: number; platform_fee_cents: number; currency: string;
   payment_intent_id: string | null; status: "pending" | "paid"; paid_at: string | null;
@@ -74,6 +76,7 @@ export type Database = {
     };
     Views: Record<never, never>;
     Functions: {
+      claim_release: {Args:{reservation:string;breeder:string}; Returns:undefined};
       claim_puppy: {Args:{listing:string;puppy:number;buyer:string;fee:number}; Returns:string};
       breeder_contact: {Args:{thread:string}; Returns:{email:string|null;phone:string|null}[]};
       confirm_stud_deposit: { Args: { reservation_id: string; intent_id: string; received: number; paid_currency: string }; Returns: undefined } };
