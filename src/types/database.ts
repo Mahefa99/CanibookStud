@@ -3,7 +3,7 @@ type Activity = "breeder" | "buyer" | "professional" | "club" | "sponsor" | "tra
 type Status = "pending" | "approved" | "rejected";
 type Profile = { id: string; display_name: string; email: string | null; created_at: string };
 type Membership = { profile_id: string; activity: Activity };
-type Case = { reviewed_by:string|null; reviewed_at:string|null; review_note:string|null; id: string; profile_id: string; status: Status; face_match_score: number | null; created_at: string };
+type Case = { evidence_deleted_at:string|null; reviewed_by:string|null; reviewed_at:string|null; review_note:string|null; id: string; profile_id: string; status: Status; face_match_score: number | null; created_at: string };
 type ProfileReference<Name extends string, Column extends string = "profile_id"> = [{
   foreignKeyName: Name; columns: [Column]; isOneToOne: false;
   referencedRelation: "profiles"; referencedColumns: ["id"];
@@ -78,7 +78,8 @@ export type Database = {
         Relationships: ProfileReference<"account_activities_profile_id_fkey">;
       };
       kyc_evidence: {
-        Row:{case_id:string;kind:"selfie"|"identity";content:string}; Insert:never; Update:never; Relationships:[];
+        Row:{case_id:string;kind:"selfie"|"identity";content:string}; Insert:never; Update:never;
+        Relationships:[{foreignKeyName:"kyc_evidence_case_id_fkey";columns:["case_id"];isOneToOne:false;referencedRelation:"kyc_cases";referencedColumns:["id"]}];
       };
       kyc_cases: {
         Row: Case; Insert: Pick<Case,"profile_id"> & Partial<Case>; Update: Partial<Case>;
@@ -87,6 +88,7 @@ export type Database = {
     };
     Views: Record<never, never>;
     Functions: {
+      erase_reviewed_evidence:{Args:{target:string};Returns:boolean};
       submit_identity_evidence:{Args:{selfie:string;identity_image:string};Returns:string};
       is_platform_admin:{Args:Record<never,never>; Returns:boolean};
       review_kyc:{Args:{case_id:string; decision:Status; note:string}; Returns:boolean};
