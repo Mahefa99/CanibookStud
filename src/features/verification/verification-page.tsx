@@ -1,3 +1,4 @@
+import { BreederLicense } from "@/src/features/breeder-licenses/views";
 import { redirect } from "next/navigation";
 import { createClient } from "@/src/lib/supabase/server";
 import { EraseEvidenceForm } from "./erase-evidence-form";
@@ -17,5 +18,6 @@ export async function VerificationPage() {
       {c.evidence_deleted_at ? <p>Documents removed on {c.evidence_deleted_at.slice(0,10)}.</p> :
         c.status !== "pending" && c.kyc_evidence.length > 0 && <EraseEvidenceForm id={c.id}/>}
     </article>)}
+    <BreederLicense owner={user.id}/>
   </section>;
 }

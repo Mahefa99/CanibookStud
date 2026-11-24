@@ -77,6 +77,9 @@ export type Database = {
         Row: Membership; Insert: Membership; Update: Partial<Membership>;
         Relationships: ProfileReference<"account_activities_profile_id_fkey">;
       };
+      breeder_licenses:{
+        Row:{id:string;breeder_id:string;license_number:string;content:string;status:string;submitted_at:string;reviewed_at:string|null;reviewed_by:string|null;review_note:string|null};
+        Insert:never;Update:never;Relationships:[]};
       stud_documents:{
         Row:{id:string;stud_id:string;kind:string;reference:string|null;content:string;status:string;submitted_at:string;reviewed_at:string|null;reviewed_by:string|null};
         Insert:never;Update:never;Relationships:[]};
@@ -91,6 +94,8 @@ export type Database = {
     };
     Views: Record<never, never>;
     Functions: {
+      submit_breeder_license:{Args:{number_text:string;document:string};Returns:undefined};
+      review_breeder_license:{Args:{document_id:string;decision:string;note:string};Returns:boolean};
       submit_stud_document:{Args:{listing:string;category:string;image:string;provider:string};Returns:undefined};
       review_stud_document:{Args:{document:string;decision:string};Returns:boolean};
       stud_document_signals:{Args:{listing:string};Returns:{kind:string;status:string}[]};

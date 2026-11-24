@@ -40,7 +40,7 @@ export async function Verifications({searchParams}:PageProps) {
   const ids = data.slice(0,25).map(c=>c.id);
   const evidence = ids.length ? await createClient().from("kyc_evidence").select("case_id,kind").in("case_id",ids) : {data:[],error:null};
   if (evidence.error) throw new Error("Unable to load evidence list.");
-  return <section className="space-y-4"><h1 className="font-display text-3xl">Identity checks</h1><Link className="underline" href="/admin/animal-documents">Review animal documents</Link>
+  return <section className="space-y-4"><h1 className="font-display text-3xl">Identity checks</h1><Link className="underline" href="/admin/animal-documents">Review animal documents</Link> <Link className="underline" href="/admin/breeder-licenses">Review USDA licenses</Link>
     {!data.length && <p>No identity checks on this page.</p>}
     {data.slice(0,25).map(c=><article key={c.id} className="surface space-y-2 p-4">
       <h2>{c.profiles?.display_name} · {c.status}</h2><p>Case {c.id}</p>
