@@ -1,3 +1,4 @@
+import { DocumentUpload } from "@/src/features/stud-documents/forms";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/src/lib/supabase/server";
@@ -12,6 +13,6 @@ export async function OwnedStuds() {
   return <section className="space-y-4"><h1 className="font-display text-4xl">Your animals</h1>
     <Link className="underline" href="/dashboard/animals/new/stud">Add a male</Link>
     <Link className="ml-4 underline" href="/dashboard/animals/new/dam">Add a female (preview)</Link>
-    {data.length ? <ul>{data.map(s => <li className="surface my-2 p-3" key={s.id}>{s.name} · {s.breed} · {s.status}</li>)}</ul> : <p>You have no registered studs yet.</p>}
+    {data.length ? <ul>{data.map(s => <li className="surface my-2 p-3" key={s.id}>{s.name} · {s.breed} · {s.status}<DocumentUpload stud={s.id}/></li>)}</ul> : <p>You have no registered studs yet.</p>}
   </section>;
 }

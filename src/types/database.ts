@@ -77,6 +77,9 @@ export type Database = {
         Row: Membership; Insert: Membership; Update: Partial<Membership>;
         Relationships: ProfileReference<"account_activities_profile_id_fkey">;
       };
+      stud_documents:{
+        Row:{id:string;stud_id:string;kind:string;reference:string|null;content:string;status:string;submitted_at:string;reviewed_at:string|null;reviewed_by:string|null};
+        Insert:never;Update:never;Relationships:[]};
       kyc_evidence: {
         Row:{case_id:string;kind:"selfie"|"identity";content:string}; Insert:never; Update:never;
         Relationships:[{foreignKeyName:"kyc_evidence_case_id_fkey";columns:["case_id"];isOneToOne:false;referencedRelation:"kyc_cases";referencedColumns:["id"]}];
@@ -88,6 +91,9 @@ export type Database = {
     };
     Views: Record<never, never>;
     Functions: {
+      submit_stud_document:{Args:{listing:string;category:string;image:string;provider:string};Returns:undefined};
+      review_stud_document:{Args:{document:string;decision:string};Returns:boolean};
+      stud_document_signals:{Args:{listing:string};Returns:{kind:string;status:string}[]};
       erase_reviewed_evidence:{Args:{target:string};Returns:boolean};
       submit_identity_evidence:{Args:{selfie:string;identity_image:string};Returns:string};
       is_platform_admin:{Args:Record<never,never>; Returns:boolean};
