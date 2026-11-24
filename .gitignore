@@ -1,0 +1,30 @@
+# dependencies
+node_modules/
+.pnpm-store/
+.npm-cache/
+.npm-logs/
+
+# next.js
+.next/
+out/
+tsconfig.tsbuildinfo
+
+# local environment (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# local client source material (not part of the public repository)
+source-docs/
+
+# verification artefacts and logs
+artifacts/
+playwright-report/
+test-results/
+*.log
+
+# os / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

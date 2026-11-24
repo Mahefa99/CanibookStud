@@ -1,0 +1,206 @@
+@import "leaflet/dist/leaflet.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * CanibookStud design tokens.
+ *
+ * Brand colors are sampled from the supplied logo (navy #002B58, orange
+ * #FF6E01). Orange fails WCAG AA as text on cream (2.65:1), so it is used as
+ * an accent surface with navy text (5.03:1) or for decoration only. The
+ * canonical CTA is navy with white text (14.13:1).
+ */
+:root {
+  --page: #fcfaf6;
+  --surface: #ffffff;
+  --ink: #0b1b2b;
+  --muted: #556274;
+  --line: #e5ded2;
+  --navy: #002b58;
+  --navy-deep: #001731;
+  --orange: #ff6e01;
+  --cream: #f7f2e9;
+  --focus: #002b58;
+  --focus-on-dark: #ff6e01;
+  --scrollbar-thumb: #8a9bb0;
+  --scrollbar-track: #f7f2e9;
+  --scrollbar-hover: #556274;
+}
+
+* {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  scrollbar-width: auto;
+}
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border: 3px solid var(--scrollbar-track);
+  border-radius: 12px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-hover);
+}
+::-webkit-scrollbar-thumb:active {
+  background: var(--navy);
+}
+button:not(:disabled),
+a,
+select:not(:disabled),
+input[type="checkbox"]:not(:disabled) {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+@media (forced-colors: active) {
+  * {
+    scrollbar-color: auto;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--page);
+  color: var(--ink);
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1,
+    "calt" 1;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #ffd7b8;
+  color: #001731;
+}
+
+/* One consistent focus treatment across links, buttons and fields. */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.on-dark :focus-visible,
+.on-dark:focus-visible {
+  outline-color: var(--focus-on-dark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family:
+      var(--font-fraunces), "Palatino Linotype", Palatino, Georgia, serif;
+    color: var(--navy-deep);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+
+  /* Numbers align in price columns and tables without a webfont dependency. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  summary {
+    cursor: pointer;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-10;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-2xs font-semibold uppercase tracking-[0.16em] text-navy-700;
+  }
+
+  .eyebrow::before {
+    content: "";
+    @apply block h-px w-6 bg-orange-500;
+  }
+
+  .surface {
+    @apply rounded-2xl border border-line bg-white;
+  }
+
+  .link-underline {
+    @apply underline decoration-line decoration-1 underline-offset-4 transition-colors hover:decoration-navy-700;
+  }
+
+  .skip-link {
+    @apply sr-only;
+  }
+
+  .skip-link:focus {
+    @apply not-sr-only fixed left-4 top-4 z-[100] rounded-lg bg-navy-700 px-4 py-2 text-sm font-semibold text-white shadow-lift;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-semibold text-navy-900;
+  }
+
+  .field-hint {
+    @apply mt-1.5 text-xs leading-relaxed text-muted;
+  }
+
+  .field-error {
+    @apply mt-1.5 flex items-start gap-1.5 text-xs font-medium text-danger-700;
+  }
+
+  .form-input {
+    @apply block w-full rounded-xl border border-[#D8D0C3] bg-white px-3.5 py-2.5 text-sm text-ink shadow-sm outline-none transition placeholder:text-[#6B7280] hover:border-[#BDB3A3] focus:border-navy-700 focus:ring-2 focus:ring-navy-700/20 disabled:cursor-not-allowed disabled:bg-cream-100 disabled:text-muted;
+  }
+
+  .form-input[aria-invalid="true"] {
+    @apply border-danger-600 focus:border-danger-600 focus:ring-danger-600/20;
+  }
+
+  .form-checkbox {
+    @apply h-4 w-4 rounded border-[#BDB3A3] text-navy-700 accent-navy-700 focus-visible:outline-offset-2;
+  }
+
+  .prose-editorial p {
+    @apply text-[15px] leading-7 text-muted;
+  }
+
+  .prose-editorial p + p {
+    @apply mt-4;
+  }
+
+  .prose-editorial strong {
+    @apply font-semibold text-ink;
+  }
+}
