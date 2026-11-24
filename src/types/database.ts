@@ -3,7 +3,7 @@ type Activity = "breeder" | "buyer" | "professional" | "club" | "sponsor" | "tra
 type Status = "pending" | "approved" | "rejected";
 type Profile = { id: string; display_name: string; email: string | null; created_at: string };
 type Membership = { profile_id: string; activity: Activity };
-type Case = { id: string; profile_id: string; status: Status; face_match_score: number | null; created_at: string };
+type Case = { reviewed_by:string|null; reviewed_at:string|null; review_note:string|null; id: string; profile_id: string; status: Status; face_match_score: number | null; created_at: string };
 type ProfileReference<Name extends string, Column extends string = "profile_id"> = [{
   foreignKeyName: Name; columns: [Column]; isOneToOne: false;
   referencedRelation: "profiles"; referencedColumns: ["id"];
@@ -84,6 +84,8 @@ export type Database = {
     };
     Views: Record<never, never>;
     Functions: {
+      is_platform_admin:{Args:Record<never,never>; Returns:boolean};
+      review_kyc:{Args:{case_id:string; decision:Status; note:string}; Returns:boolean};
       sign_contract:{Args:{contract:string; signer:string; address:string};Returns:undefined};
       claim_release: {Args:{reservation:string;breeder:string}; Returns:undefined};
       claim_puppy: {Args:{listing:string;puppy:number;buyer:string;fee:number}; Returns:string};
