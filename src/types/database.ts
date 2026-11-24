@@ -97,6 +97,7 @@ export type Database = {
     };
     Views: Record<never, never>;
     Functions: {
+      my_stud_quota:{Args:Record<never,never>;Returns:{plan_name:string;maximum:number|null;used:number}[]};
       submit_breeder_license:{Args:{number_text:string;document:string};Returns:undefined};
       review_breeder_license:{Args:{document_id:string;decision:string;note:string};Returns:boolean};
       submit_stud_document:{Args:{listing:string;category:string;image:string;provider:string};Returns:undefined};
