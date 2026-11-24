@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AdminNav } from "@/components/admin/admin-nav";
 import { Icon } from "@/components/ui/icon";
-import { DEMO_SNAPSHOT_LABEL } from "@/lib/config/site";
 
 export const metadata: Metadata = {
   title: "Administration",
@@ -19,9 +18,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <p className="flex flex-wrap items-center gap-2 text-[11px]">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-300/40 bg-orange-500/10 px-2 py-0.5 font-semibold uppercase tracking-wide text-orange-200">
               <Icon name="shield" className="h-3 w-3" />
-              Admin · demo
+              Administration
             </span>
-            <span className="text-navy-200">{DEMO_SNAPSHOT_LABEL} · sample records only</span>
           </p>
           <div className="flex items-center gap-3 text-[11px]">
             <Link href="/" className="text-navy-100 underline underline-offset-2 hover:text-white">
@@ -37,7 +35,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <div className="rounded-2xl border border-line bg-white p-3 shadow-card lg:sticky lg:top-24">
               <AdminNav />
               <p className="mt-3 hidden border-t border-line pt-3 text-[10px] leading-relaxed text-muted lg:block">
-                Demo records. No action here changes a public page.
+                Content, reports, sponsors and events are preview sections.
               </p>
             </div>
           </aside>

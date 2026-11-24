@@ -17,7 +17,7 @@ export function StudForm() {
     <p className="field-hint">Your map pin uses an approximate city location.</p>
     <label className="field-label">AKC number<input className="form-input" name="akcNumber" maxLength={150} /></label>
     <label className="field-label">Brucellosis collection date<input className="form-input" name="brucellosisDate" type="date" /></label>
-    <label className="field-label">Visibility<select className="form-input" name="status" defaultValue="draft"><option value="draft">Private draft</option><option value="published">Publish in the directory</option></select></label>
-    <p role="status">{state.message}</p><SubmitButton label="Save stud" />
+    <p>Save a draft, then upload an Embark or Wisdom Panel DNA report from Your animals to publish.</p>
+    <p role="status">{state.message}</p><SubmitButton label="Save private draft" />
   </form>;
 }

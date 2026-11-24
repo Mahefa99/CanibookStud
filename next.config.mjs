@@ -24,7 +24,6 @@ const nextConfig = {
       { source: "/pet-services-map", destination: "/pet-services?view=map", permanent: false },
       { source: "/vets", destination: "/pet-services?category=vet", permanent: false },
       { source: "/breed/:breed", destination: "/breeds/:breed", permanent: false },
-      { source: "/dashboard/reservations", destination: "/dashboard/requests", permanent: false },
       { source: "/dashboard/dams", destination: "/dashboard/animals", permanent: false },
       { source: "/dashboard/studs", destination: "/dashboard/animals", permanent: false },
       { source: "/dashboard/litters", destination: "/dashboard/listings", permanent: false },

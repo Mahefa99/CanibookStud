@@ -45,6 +45,8 @@ export const DASHBOARD_NAV: DashboardNavGroup[] = [
   {
     heading: "Account",
     items: [
+      { label: "Paid reservations", href: "/dashboard/reservations", icon: "card", activities: ["breeder"], available: true },
+      { label: "Identity verification", href: "/dashboard/verification", icon: "shield", available: true },
       { label: "Billing", href: "/dashboard/billing", icon: "card", available: true },
       { label: "Settings", href: "/dashboard/settings", icon: "settings", available: true },
     ],
