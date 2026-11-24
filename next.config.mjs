@@ -2,7 +2,7 @@
 
 const nextConfig = {
   reactStrictMode: true,
-  experimental: { outputFileTracingRoot: process.cwd() },
+  experimental: { outputFileTracingRoot: process.cwd(), serverActions: { bodySizeLimit: "5mb" } },
   poweredByHeader: false,
   // Demo assets are local. No remote image host is trusted until the client
   // confirms where animal photos will be stored (Supabase Storage is the
@@ -34,4 +34,5 @@ const nextConfig = {
 };
 
 export default nextConfig;
+
 

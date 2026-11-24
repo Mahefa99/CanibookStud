@@ -1,3 +1,5 @@
+import { authConfigured } from "@/src/lib/env/public";
+import { OwnedStuds } from "@/src/features/studs/components/owned-studs";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { DemoPortrait } from "@/components/domain/demo-portrait";
@@ -17,6 +19,7 @@ import { addDays, ageInYears, formatDate, pluralize } from "@/lib/utils";
 export const metadata: Metadata = { title: "My Animals" };
 
 export default function MyAnimalsPage() {
+  if (authConfigured()) return <OwnedStuds />;
   const marlo = DEMO_STUDS.find((stud) => stud.slug === "marlo-northshore");
 
   return (
@@ -218,3 +221,4 @@ export default function MyAnimalsPage() {
     </div>
   );
 }
+

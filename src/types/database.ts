@@ -1,17 +1,64 @@
-// Schema contract for 001_initial_schema.sql. Regenerate after applying the migration.
+// Schema contract for migrations 001 through 004. Regenerate after applying the migration.
 type Activity = "breeder" | "buyer" | "professional" | "club" | "sponsor" | "transporter";
 type Status = "pending" | "approved" | "rejected";
 type Profile = { id: string; display_name: string; email: string | null; created_at: string };
 type Membership = { profile_id: string; activity: Activity };
 type Case = { id: string; profile_id: string; status: Status; face_match_score: number | null; created_at: string };
-type ProfileReference<Name extends string> = [{
-  foreignKeyName: Name; columns: ["profile_id"]; isOneToOne: false;
+type ProfileReference<Name extends string, Column extends string = "profile_id"> = [{
+  foreignKeyName: Name; columns: [Column]; isOneToOne: false;
   referencedRelation: "profiles"; referencedColumns: ["id"];
 }];
 
+type ListingStatus = "draft" | "published";
+type LitterPlan = "free" | "premium";
+type Stud = {
+  id: string; owner_id: string; name: string; breed: string; akc_number: string | null;
+  brucellosis_date: string | null; ofa_url: string | null; photos: string[];
+  price: number; status: ListingStatus; lat: number; lng: number;
+};
+type Litter = {
+  id: string; breeder_id: string; breed: string; birth_date: string; puppy_count: number;
+  puppy_price: number; listing_type: LitterPlan; photos: string[]; status: ListingStatus; expires_at: string | null;
+};
+
+type ConnectedAccount = {
+  breeder_id: string; stripe_account_id: string | null; created_at: string; onboarding_complete: boolean;
+};
+type Reservation = {
+  id: string; stud_id: string | null; litter_id: string | null; puppy_number: number | null; buyer_id: string; breeder_id: string;
+  deposit_cents: number; platform_fee_cents: number; currency: string;
+  payment_intent_id: string | null; status: "pending" | "paid"; paid_at: string | null;
+};
 export type Database = {
   public: {
     Tables: {
+      conversations: {
+        Row: {id:string;stud_id:string|null;litter_id:string|null;buyer_id:string;breeder_id:string;created_at:string};
+        Insert: never; Update: never; Relationships: [];
+      };
+      messages: {
+        Row: {id:string;conversation_id:string;sender_id:string;content:string;created_at:string};
+        Insert: {conversation_id:string;content:string}; Update: never; Relationships: [];
+      };
+      stripe_connect_accounts: {
+        Row: ConnectedAccount; Insert: Pick<ConnectedAccount,"breeder_id"> & Partial<ConnectedAccount>;
+        Update: Partial<ConnectedAccount>; Relationships: [];
+      };
+      reservations: {
+        Row: Reservation;
+        Insert: Pick<Reservation,"stud_id"|"buyer_id"|"breeder_id"|"deposit_cents"|"platform_fee_cents"> & Partial<Reservation>;
+        Update: Partial<Reservation>; Relationships: [];
+      };
+      studs: {
+        Row: Stud;
+        Insert: Pick<Stud, "owner_id" | "name" | "breed" | "price" | "lat" | "lng"> & Partial<Stud>;
+        Update: Partial<Stud>; Relationships: ProfileReference<"studs_owner_id_fkey", "owner_id">;
+      };
+      litters: {
+        Row: Litter;
+        Insert: Pick<Litter, "breeder_id" | "breed" | "birth_date" | "puppy_count" | "puppy_price"> & Partial<Litter>;
+        Update: Partial<Litter>; Relationships: ProfileReference<"litters_breeder_id_fkey", "breeder_id">;
+      };
       profiles: {
         Row: Profile; Insert: Pick<Profile,"id" | "display_name"> & Partial<Profile>;
         Update: Partial<Profile>; Relationships: [];
@@ -26,8 +73,15 @@ export type Database = {
       };
     };
     Views: Record<never, never>;
-    Functions: Record<never, never>;
-    Enums: { account_activity: Activity; kyc_status: Status };
+    Functions: {
+      claim_puppy: {Args:{listing:string;puppy:number;buyer:string;fee:number}; Returns:string};
+      breeder_contact: {Args:{thread:string}; Returns:{email:string|null;phone:string|null}[]};
+      confirm_stud_deposit: { Args: { reservation_id: string; intent_id: string; received: number; paid_currency: string }; Returns: undefined } };
+    Enums: { account_activity: Activity; kyc_status: Status; listing_status: ListingStatus; litter_listing_type: LitterPlan };
     CompositeTypes: Record<never, never>;
   };
 };
+
+
+
+

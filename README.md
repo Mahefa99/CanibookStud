@@ -286,3 +286,35 @@ and Confirm email in Supabase Auth. Set Site URL to the app origin (locally
 The account trigger provisions the profile and selected activities in the same
 transaction as signup. Staff privileges come only from administrator-managed
 Auth app metadata. KYC results are read-only for account holders.
+
+## Litter listings
+
+After migrations 001 and 002, apply `supabase/migrations/003_litter_publication.sql`
+in Supabase SQL Editor. The migration also creates the private litter-photos
+bucket and its object policies. Existing published litters younger than 56
+days return to draft. Existing listings start with an empty photo array.
+
+Sign in and visit /dashboard/animals/new/litter. The server rejects underage
+litters and stores USD as integer cents. The free listing runs for seven days.
+Public detail URLs use the litter UUID. Only published, unexpired litters are
+visible to the anonymous catalog. Up to four JPEG, PNG or WebP photos are
+accepted per listing, with a limit of 1 MiB per file.
+
+## Stripe Connect sandbox
+
+Apply migrations through 004_stripe_foundation.sql. Set the Stripe test publishable
+and secret keys, Supabase server-side secret/service_role key, and NEXT_PUBLIC_SITE_URL
+in .env.local. For local testing set the URL to http://localhost:3000. Enable Connect
+on the US platform sandbox. Install Stripe CLI and run:
+
+```powershell
+stripe login
+stripe listen --forward-to localhost:3000/api/webhooks/stripe --forward-connect-to localhost:3000/api/webhooks/stripe
+```
+
+Copy the listener's whsec_ value to STRIPE_WEBHOOK_SECRET. Use a distinct
+STRIPE_CONNECT_WEBHOOK_SECRET only for a separately signed Connect endpoint.
+Restart Next and open /dashboard/billing as a breeder. Complete Express onboarding.
+To smoke-test signature delivery in a second terminal use
+`stripe trigger payment_intent.succeeded`. This fixture has no marketplace
+reservation and must not grant access or release funds.

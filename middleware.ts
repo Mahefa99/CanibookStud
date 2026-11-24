@@ -2,5 +2,6 @@
 export { middleware } from "./src/middleware";
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|brand/|editorial/|maps/).*)"],
+  matcher: ["/((?!api/webhooks/stripe$|_next/static|_next/image|favicon.ico|brand/|editorial/|maps/).*)"],
 };
+

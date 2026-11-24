@@ -1,3 +1,5 @@
+import { authConfigured } from "@/src/lib/env/public";
+import { LiveProfile } from "@/src/features/studs/components/live-profile";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -35,11 +37,13 @@ import {
 type StudPageProps = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
+  if (authConfigured()) return [];
   const slugs = await catalogRepository.listStudSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: StudPageProps): Promise<Metadata> {
+  if (authConfigured()) return { title: "Stud profile" };
   const { slug } = await params;
   const stud = await catalogRepository.getStudBySlug(slug);
   if (!stud) return { title: "Stud not found" };
@@ -182,6 +186,7 @@ function RequestCard({ stud, canRequest, blockReason }: { stud: Stud; canRequest
 }
 
 export default async function StudPage({ params }: StudPageProps) {
+  if (authConfigured()) return <LiveProfile id={(await params).slug} />;
   const { slug } = await params;
   const stud = await catalogRepository.getStudBySlug(slug);
   if (!stud) notFound();
@@ -564,3 +569,4 @@ export default async function StudPage({ params }: StudPageProps) {
     </>
   );
 }
+

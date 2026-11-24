@@ -194,3 +194,44 @@ contraintes de forme, pas des choix de produit.
 Profiles expose only their owner's record. The authenticated role can update
 display_name. Email follows Auth. Account activities and KYC records are readable
 only by their owner; clients cannot issue KYC decisions or assign staff privileges.
+
+## Stripe sandbox
+
+POST via createConnectAccount requires a verified breeder session. GET /api/stripe/connect
+issues a fresh single-use onboarding link for that breeder only. The return URL is
+not proof of onboarding. Use the trusted account capability and payout state.
+
+POST /api/webhooks/stripe uses the original body and Stripe-Signature. Configure a
+platform payment_intent.succeeded destination and a connected account.updated
+destination. Signature failures return 400. Transient processing failures return
+500 for Stripe retries. Unrelated signed test events return 204.
+
+Future deposit checkout must persist a pending reservation with integer USD cents
+and an immutable price snapshot, link the platform PaymentIntent ID before client
+confirmation, and tag its metadata with purpose=stud_deposit and reservation_id.
+The stored procedure locks the matching row, checks amount and currency, and marks
+it paid exactly once. Paid means captured by the platform. No transfer is created
+at this stage. The later transfer requires a separate mating approval.
+
+## Stud deposit checkout
+
+Apply migration 005 before enabling checkout. Configure STUD_DEPOSIT_CENTS and
+STUD_PLATFORM_FEE_CENTS on the server. The public stud page opens Elements for
+a signed-in buyer and a different, onboarded breeder. Both the reservation
+and its PaymentIntent are reused for repeat visits. The platform captures the
+deposit in test mode. The verified webhook owns the paid transition.
+
+## Puppy checkout and paid messaging
+
+Migration 006 follows the existing 005 stud checkout migration. A litter UUID
+plus its one-based puppy number identifies a reservation. The database locks the
+litter, checks publication, expiration, age and breeder readiness, and snapshots
+the listing price plus PUPPY_SERVICE_FEE_CENTS. Concurrent buyers cannot reserve
+the same puppy. An unpaid checkout with a linked intent can be cancelled by the
+buyer from Messages; Stripe cancellation precedes inventory release.
+
+A signed platform payment for the linked intent and exact total opens a single
+conversation in the settlement transaction. Stud and puppy chats are available
+to their two participants in Messages and on visible animal profiles. The buyer
+can read the breeder's Auth email and available phone through a reservation-scoped
+function. The chat displays the latest 100 messages and refreshes every five seconds.

@@ -1,3 +1,5 @@
+import { LiveDirectory } from "@/src/features/studs/components/live-directory";
+import { authConfigured } from "@/src/lib/env/public";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MarketMap } from "@/components/domain/market-map";
@@ -105,6 +107,7 @@ function activeChips(query: StudSearchQuery) {
 
 export default async function StudsPage({ searchParams }: StudsPageProps) {
   const rawParams = await searchParams;
+  if (authConfigured()) return <LiveDirectory params={rawParams} />;
   const query = parseStudSearchParams(rawParams);
 
   const [result, breeds, directory] = await Promise.all([
@@ -327,3 +330,4 @@ export default async function StudsPage({ searchParams }: StudsPageProps) {
     </>
   );
 }
+
