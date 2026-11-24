@@ -98,7 +98,7 @@ export default async function SponsorsPage({ searchParams }: SponsorsPageProps) 
             Event sponsorship
           </h2>
           <p className="mt-1 text-[12px] text-muted">
-            One-time per event. The announced 50/50 club/platform split still needs contract terms.
+            One payment per event. {SPONSOR_PRICING.eventSplitLabel}
           </p>
           <div className="mt-4 grid gap-4 md:grid-cols-2">
             {SPONSOR_PRICING.event.map((tier) => (
@@ -111,8 +111,7 @@ export default async function SponsorsPage({ searchParams }: SponsorsPageProps) 
                   </p>
                 </div>
                 <p className="mt-2 text-[11px] leading-relaxed text-muted">
-                  Logo on the event page and ticket email, subject to creative approval. The split is
-                  announced at 50/50 but is not presented as a signed policy.
+                  Logo on the event page and ticket email, subject to creative approval.
                 </p>
               </article>
             ))}
