@@ -30,10 +30,10 @@ export default async function SponsorsPage({ searchParams }: SponsorsPageProps) 
         description="A defined set of placements, with the inventory written down. No fake partner, impression or click is shown."
         actions={
           <Link
-            href="#apply"
+            href="/sponsors/calendar"
             className="inline-flex min-h-10 items-center gap-2 rounded-full bg-navy-700 px-5 text-sm font-semibold text-white hover:bg-navy-800"
           >
-            Start a sample application
+            Browse event placements
             <Icon name="arrow-right" className="h-4 w-4" />
           </Link>
         }
@@ -98,7 +98,7 @@ export default async function SponsorsPage({ searchParams }: SponsorsPageProps) 
             Event sponsorship
           </h2>
           <p className="mt-1 text-[12px] text-muted">
-            One-time per event. The announced 50/50 club/platform split still needs contract terms.
+            One payment per event. {SPONSOR_PRICING.eventSplitLabel}
           </p>
           <div className="mt-4 grid gap-4 md:grid-cols-2">
             {SPONSOR_PRICING.event.map((tier) => (
@@ -111,8 +111,7 @@ export default async function SponsorsPage({ searchParams }: SponsorsPageProps) 
                   </p>
                 </div>
                 <p className="mt-2 text-[11px] leading-relaxed text-muted">
-                  Logo on the event page and ticket email, subject to creative approval. The split is
-                  announced at 50/50 but is not presented as a signed policy.
+                  Logo on the event page and ticket email, subject to creative approval.
                 </p>
               </article>
             ))}

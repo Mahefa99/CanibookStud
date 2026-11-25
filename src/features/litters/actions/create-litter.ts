@@ -64,7 +64,6 @@ export async function createLitter(_: { message: string }, form: FormData): Prom
   const { error } = await db.from("litters").insert({
     id, breeder_id: user.id, breed, birth_date: birth, puppy_count: count, puppy_price: price,
     photos, status: "published", listing_type: "free",
-    expires_at: new Date(Date.now() + 7 * 86400000).toISOString(),
   });
   if (error) {
     if (photos.length) await bucket.remove(photos);

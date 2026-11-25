@@ -1,3 +1,4 @@
+import { BreederPlans } from "@/src/features/payments/components/breeder-plans";
 import { createConnectAccount } from "@/src/features/payments/actions/create-connect-account";
 import { currentBreeder } from "@/src/features/payments/services/connect";
 import { SubmitButton } from "@/src/features/auth/components/submit-button";
@@ -14,6 +15,6 @@ export default async function BillingPage() {
         "Complete Stripe identity verification to receive breeder payouts."}</p>
       {!data?.onboarding_complete && <form action={createConnectAccount}><SubmitButton label={data?.stripe_account_id ? "Continue Stripe onboarding" : "Connect your Stripe Account"} /></form>}
     </div>}
-    <p>Subscription checkout is not yet available.</p>
+    {breeder && <BreederPlans/>}
   </section>;
 }

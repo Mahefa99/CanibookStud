@@ -3,10 +3,12 @@ import type Stripe from "stripe";
 import { z } from "zod";
 import { paymentsAdmin } from "@/src/lib/supabase/payments-admin";
 import { getStripe } from "@/src/lib/stripe/server";
+import { syncSubscription } from "./subscription-webhooks";
 import { canReceiveTransfers } from "./connect";
 
 export async function applyStripeEvent(event: Stripe.Event): Promise<void> {
   if (event.livemode) throw new Error("Unexpected live event.");
+  await syncSubscription(event);
   if (event.type === "payment_intent.succeeded") {
     const intent = event.data.object;
     // Only a platform charge tagged by our deposit checkout can settle a reservation.

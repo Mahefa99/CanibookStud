@@ -45,7 +45,7 @@ export default function NewEventPage() {
                 "Club authority and event ownership",
                 "Venue, capacity and time zone",
                 "Ticket price and the separate $2 fee",
-                "Sponsor creative and 50/50 split, if applicable",
+                "Sponsor artwork and club approval",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2">
                   <Icon name="check" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-navy-400" />

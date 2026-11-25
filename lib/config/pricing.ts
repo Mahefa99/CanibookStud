@@ -210,7 +210,7 @@ export const SPONSOR_PRICING = {
     { id: "premium", name: "Premium event", amountUsd: 400, status: "confirmed" as PriceStatus },
   ],
   eventSplitLabel:
-    "50 / 50 club / platform split: $74.50 club + $74.50 platform (on $149), $200 + $200 (on $400).",
+    "The club receives 100% of the event sponsorship payment. The platform earns a fee on ticket sales.",
 } as const;
 
 /* ============================================================ */

@@ -378,7 +378,7 @@ export function SponsorBooking({ eventTitle }: { eventTitle?: string }) {
             production, with a reminder seven days before renewal. An event
             payment would be held pending the club decision.
           </p>
-          <p className="text-sm">{SPONSOR_PRICING.eventSplitLabel}</p>
+          {channel === "event" && <p className="text-sm">{SPONSOR_PRICING.eventSplitLabel}</p>}
         </div>
       ) : null}
       {step === 5 ? (
@@ -436,7 +436,7 @@ export function SponsorBooking({ eventTitle }: { eventTitle?: string }) {
                   onChange={(e) => setDecision(e.target.value)}
                 >
                   <option value="proposition">Proposal pending</option>
-                  <option value="accepted">Accepted — split 50/50</option>
+                  <option value="accepted">Accepted - full sponsorship amount to the club</option>
                   <option value="refused">Refused — 100% refund due</option>
                   <option value="expired">
                     Expired after 7 days — 100% refund due

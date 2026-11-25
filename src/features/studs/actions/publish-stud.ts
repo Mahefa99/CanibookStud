@@ -15,6 +15,7 @@ export async function publishStud(_:string, form:FormData) {
   const {id,akcNumber,brucellosisDate}=parsed.data;
   const {data,error}=await db.from("studs").update({status:"published",akc_number:akcNumber,brucellosis_date:brucellosisDate})
     .eq("id",id).eq("owner_id",user.id).eq("status","draft").select("id").maybeSingle();
+  if(error?.code==="P0160") return "Your plan limit is reached. Move a published stud to drafts or change your plan in Billing.";
   if(error?.code==="23514") return "Publication requires an eligible DNA report, AKC number and current brucellosis test.";
   if(error || !data) return "Draft unavailable. Refresh your animal list.";
   revalidatePath("/dashboard/animals");

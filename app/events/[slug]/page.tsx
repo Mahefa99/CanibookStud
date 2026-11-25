@@ -129,8 +129,7 @@ export default async function EventPage({ params }: EventPageProps) {
                 <div>
                   <h2 className="font-display text-2xl text-navy-900">Sponsor this event</h2>
                   <p className="mt-1 max-w-xl text-sm text-muted">
-                    Event sponsorship is separate from a site sponsor plan. The source documents
-                    announce a 50/50 club/platform split; the contract terms are still to be confirmed.
+                    {SPONSOR_PRICING.eventSplitLabel}
                   </p>
                 </div>
                 <Link

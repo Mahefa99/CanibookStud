@@ -323,8 +323,7 @@ export function EventCreateForm() {
       <section className="rounded-2xl border border-line bg-white p-5 shadow-card sm:p-6">
         <h2 className="font-display text-2xl text-navy-900">Sponsorship interest</h2>
         <p className="mt-1 text-[11px] leading-relaxed text-muted">
-          A sponsor can express interest here. Creative approval and payment are separate. The
-          announced 50/50 split is not a contract.
+          A sponsor can express interest here. Creative approval and payment are separate. The club receives the full sponsorship payment.
         </p>
         <div className="mt-3">
           <SelectField

@@ -57,7 +57,7 @@ export default function EventsPage() {
           {[
             ["Local time", "The event stores an IANA time zone, so a Miami and a Denver event are not shown in the visitor's zone by accident."],
             ["Capacity", "Tickets sold and remaining capacity are sample numbers. A sold-out state is visible before purchase."],
-            ["Sponsorship", "Event sponsorship is a separate channel, with an announced 50/50 split still to be confirmed in contract."],
+            ["Sponsorship", "The club receives the full event sponsorship payment."],
           ].map(([title, body]) => (
             <div key={title}>
               <p className="text-sm font-semibold text-navy-900">{title}</p>
