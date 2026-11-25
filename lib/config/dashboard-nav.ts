@@ -80,7 +80,7 @@ export const DASHBOARD_NAV: DashboardNavGroup[] = [
         href: "/dashboard/sponsorships",
         icon: "star",
         available: true,
-        activities: ["sponsor"],
+        activities: ["sponsor", "club_manager"],
       },
     ],
   },

@@ -30,10 +30,10 @@ export default async function SponsorsPage({ searchParams }: SponsorsPageProps) 
         description="A defined set of placements, with the inventory written down. No fake partner, impression or click is shown."
         actions={
           <Link
-            href="#apply"
+            href="/sponsors/calendar"
             className="inline-flex min-h-10 items-center gap-2 rounded-full bg-navy-700 px-5 text-sm font-semibold text-white hover:bg-navy-800"
           >
-            Start a sample application
+            Browse event placements
             <Icon name="arrow-right" className="h-4 w-4" />
           </Link>
         }

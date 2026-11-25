@@ -36,6 +36,10 @@ type Subscription = {id:string;breeder_id:string;plan:string;cadence:string;pric
 export type Database = {
   public: {
     Tables: {
+      sponsor_slots:{Row:{id:string;club_id:string;event_name:string;placement:string;slot_day:string};
+        Insert:{club_id:string;event_name:string;placement:string;slot_day:string};Update:never;Relationships:[]};
+      sponsor_requests:{Row:{id:string;slot_id:string;sponsor_id:string;status:string;deadline:string;proposal:string|null};
+        Insert:never;Update:never;Relationships:[{foreignKeyName:"sponsor_requests_slot_id_fkey";columns:["slot_id"];isOneToOne:false;referencedRelation:"sponsor_slots";referencedColumns:["id"]}]};
       breeder_subscriptions:{Row:Subscription;Insert:Pick<Subscription,"breeder_id"|"plan"|"cadence"|"price_id">;Update:Partial<Subscription>;Relationships:[]};
       reservation_contracts: {
         Row: {id:string; buyer_id:string; breeder_id:string; issued_at:string; terms:string[]; pdf:string};
@@ -97,6 +101,9 @@ export type Database = {
     };
     Views: Record<never, never>;
     Functions: {
+      sponsor_calendar:{Args:{day_filter:string};Returns:{slot:string;event_name:string;placement:string;available:boolean}[]};
+      hold_sponsor_slot:{Args:{slot:string};Returns:string};
+      advance_sponsor_request:{Args:{request_id:string;action_name:string;message:string};Returns:boolean};
       my_stud_quota:{Args:Record<never,never>;Returns:{plan_name:string;maximum:number|null;used:number}[]};
       submit_breeder_license:{Args:{number_text:string;document:string};Returns:undefined};
       review_breeder_license:{Args:{document_id:string;decision:string;note:string};Returns:boolean};
