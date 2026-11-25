@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useFormState } from "react-dom";
 import { signIn } from "../actions/sign-in";
 import { SubmitButton } from "./submit-button";
@@ -12,6 +13,7 @@ export function LoginForm() {
       <label className="field-label">Email<input className="form-input" name="email" type="email" autoComplete="email" required maxLength={254} /></label>
       <label className="field-label">Password<input className="form-input" name="password" type="password" autoComplete="current-password"  required /></label>
       
+      <Link href="/forgot-password" className="inline-block text-sm font-semibold underline">Forgot password?</Link>
       <p role="status" className="text-sm text-danger-700">{state.message}</p>
       <SubmitButton label="Log in" />
     </form>
