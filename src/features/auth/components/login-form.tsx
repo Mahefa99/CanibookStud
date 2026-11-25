@@ -8,7 +8,7 @@ import { SubmitButton } from "./submit-button";
 export function LoginForm() {
   const [state, action] = useFormState(signIn, { message: "" });
   return (
-    <form action={action} className="mt-5 space-y-4">
+    <form noValidate action={action} className="mt-5 space-y-4">
       
       <label className="field-label">Email<input className="form-input" name="email" type="email" autoComplete="email" required maxLength={254} /></label>
       <label className="field-label">Password<input className="form-input" name="password" type="password" autoComplete="current-password"  required /></label>
