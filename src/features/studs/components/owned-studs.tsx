@@ -17,7 +17,7 @@ export async function OwnedStuds() {
   return <section className="space-y-4"><h1 className="font-display text-4xl">Your animals</h1>
     <p>Published studs: {quota.used} / {quota.maximum ?? "unlimited"} · {quota.plan_name} plan. <Link href="/dashboard/billing" className="underline">View plans</Link></p>
     <Link className="underline" href="/dashboard/animals/new/stud">Add a male</Link>
-    <Link className="ml-4 underline" href="/dashboard/animals/new/dam">Add a female (preview)</Link>
+    <Link className="ml-4 underline" href="/dashboard/animals/females">Your females and mating proposals</Link>
     {data.length ? <ul>{data.map(s => <li className="surface my-2 p-3" key={s.id}>{s.name} · {s.breed} · {s.status}<DocumentUpload stud={s.id}/>{s.status==="published" && <UnpublishStud id={s.id}/>}{s.status==="draft" && <PublishDraft id={s.id} akc={s.akc_number} date={s.brucellosis_date}/>}</li>)}</ul> : <p>You have no registered studs yet.</p>}
   </section>;
 }

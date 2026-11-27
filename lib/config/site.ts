@@ -44,13 +44,14 @@ export interface NavItem {
 }
 
 export const PRIMARY_NAV: readonly NavItem[] = [
-  { label: "Blog & Names", href: "/blog", description: "Blog and GODPET name finder" },
   { label: "Studs", href: "/studs", description: "Browse the stud directory" },
+  { label: "Females", href: "/females" },
   { label: "Puppies", href: "/puppies", description: "Browse litters and puppies" },
   { label: "Pet Services", href: "/pet-services", description: "Vets, trainers, groomers and more" },
   { label: "Clubs", href: "/clubs", description: "Clubs and associations" },
   { label: "Events", href: "/events", description: "Club events and tickets" },
   { label: "Compare", href: "/compare", description: "Insurance and food comparisons" },
+  { label: "Blog & Names", href: "/blog", description: "Blog and GODPET name finder" },
 ] as const;
 
 export const FOOTER_NAV: ReadonlyArray<{ heading: string; items: readonly NavItem[] }> = [

@@ -14,6 +14,8 @@ export async function createDepositIntent(studId: string): Promise<Result> {
   if (!z.string().uuid().safeParse(studId).success) return { message: "Invalid listing." };
   const { data: { user } } = await createClient().auth.getUser();
   if (!user) return { message: "Log in to start your deposit." };
+  const { data: approval, error: approvalError } = await createClient().from("mating_proposals").select("id").eq("stud_id",studId).eq("female_owner",user.id).eq("status","accepted").limit(1).maybeSingle();
+  if (approvalError || !approval) return { message: "Confirm a mating proposal before starting a deposit." };
   const pricing = z.object({ deposit: cents, fee: cents }).safeParse({
     deposit: process.env.STUD_DEPOSIT_CENTS, fee: process.env.STUD_PLATFORM_FEE_CENTS,
   });

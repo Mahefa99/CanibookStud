@@ -33,9 +33,13 @@ type Reservation = {
 };
 type Subscription = {id:string;breeder_id:string;plan:string;cadence:string;price_id:string;created_at:string;
   checkout_id:string|null;subscription_id:string|null;status:string;revision:number};
+type Female = {id:string; owner_id:string; name:string; breed:string; birth_date:string; city:string; pedigree_verified:boolean; health:string; vaccines:string; brucellosis_date:string|null; availability:string; visible:boolean; photo_rgb:string};
+type Proposal = {id:string; female_id:string; stud_id:string; female_owner:string; stud_owner:string; female_name:string; stud_name:string; status:string; created_at:string};
 export type Database = {
   public: {
     Tables: {
+      females:{Row:Female; Insert:Omit<Female,"id"|"owner_id"|"visible"|"pedigree_verified">;Update:Pick<Partial<Female>,"visible"|"availability">;Relationships:[]};
+      mating_proposals:{Row:Proposal;Insert:never;Update:never;Relationships:[]};
       sponsor_slots:{Row:{id:string;club_id:string;event_name:string;placement:string;slot_day:string};
         Insert:{club_id:string;event_name:string;placement:string;slot_day:string};Update:never;Relationships:[]};
       sponsor_requests:{Row:{id:string;slot_id:string;sponsor_id:string;status:string;deadline:string;proposal:string|null};
@@ -101,6 +105,8 @@ export type Database = {
     };
     Views: Record<never, never>;
     Functions: {
+      propose_mating:{Args:{f:string;s:string};Returns:undefined};
+      decide_mating:{Args:{p:string;approve:boolean};Returns:undefined};
       sponsor_calendar:{Args:{day_filter:string};Returns:{slot:string;event_name:string;placement:string;available:boolean}[]};
       hold_sponsor_slot:{Args:{slot:string};Returns:string};
       advance_sponsor_request:{Args:{request_id:string;action_name:string;message:string};Returns:boolean};
